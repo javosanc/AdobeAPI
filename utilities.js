@@ -41,12 +41,20 @@ var AEUtils = (function (){
 
 	}
 
+	function repeatLayerWithRhythm (comp, AVItem, triggers, timeOffset){
+		for(var i = 0; i < triggers.length; i++){
+			var layer = comp.layers.add(AVItem);
+			layer.startTime = triggers[i] + timeOffset;
+		}
+	}
+
 	return {
 		getMarkerValues: getMarkerValues,
 		assignKeyframes: assignKeyframes,
 		deleteAllKeys: deleteAllKeys,
 		deleteKeysBetween: deleteKeysBetween,
-		scaleKeys: scaleKeys
+		scaleKeys: scaleKeys,
+		repeatLayerWithRhythm: repeatLayerWithRhythm
 	}
 
 })();
