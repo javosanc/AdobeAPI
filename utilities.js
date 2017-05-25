@@ -14,9 +14,9 @@ var AEUtils = (function (){
 		return markers;
 	}
 
-	function assignKeyframes(property, markers, values){
+	function assignKeyframes(property, times, values){
 
-		property.setValuesAtTimes(markers.times, values)
+		property.setValuesAtTimes(times, values)
 	}
 
 	function deleteAllKeys(property){
@@ -48,13 +48,34 @@ var AEUtils = (function (){
 		}
 	}
 
+	function advanceTime(comp, timeOffset){
+		comp.time += timeOffset;
+	}
+
+	function placeCompMarkers(comp, times, timeOffset){
+		timeGrid = comp.layers.byName("timeGrid") || createTimeGridLayer(comp);
+
+		for(var i = 0 ; i < times.length; i++){
+			timeGrid.marker.setValueAtTime(times[i] + timeOffset, new MarkerValue(i.toString()))
+		}
+	}
+
+	function createTimeGridLayer(comp){
+		timeGrid = comp.layers.addNull();
+		timeGrid.name = "timeGrid";
+
+		return timeGrid;
+	}
+
 	return {
 		getMarkerValues: getMarkerValues,
 		assignKeyframes: assignKeyframes,
 		deleteAllKeys: deleteAllKeys,
 		deleteKeysBetween: deleteKeysBetween,
 		scaleKeys: scaleKeys,
-		repeatLayerWithRhythm: repeatLayerWithRhythm
+		repeatLayerWithRhythm: repeatLayerWithRhythm,
+		advanceTime: advanceTime,
+		placeCompMarkers: placeCompMarkers
 	}
 
 })();
